@@ -1,0 +1,38 @@
+# --- Electron / Build ---
+node_modules/
+out/
+dist/
+release/
+*.local
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+build/
+*.spec-bak
+
+# --- Logs / Diagnose ---
+*.log
+debug.jsonl*
+ai_debug_dump.md
+
+# --- Session-Runtime (niemals einchecken) ---
+/tmp/
+
+# --- Editor/OS ---
+.DS_Store
+.idea/
+.vscode/
+
+# Packaging-Artefakte (Step 12)
+/dist
+*.tsbuildinfo
+
+# UI-Screenshots / Diagnose-Ausgaben
+Debug/
+.agent-state/
+test-results/

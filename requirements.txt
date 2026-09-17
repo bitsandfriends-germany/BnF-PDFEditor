@@ -1,0 +1,25 @@
+# Backend-Runtime — Versionen exakt gepinnt (==), kein Range. Python 3.12+.
+# Docling gehoert NICHT hierher (siehe requirements-docling.txt), da optionaler Sidecar.
+fastapi==0.141.1
+uvicorn==0.52.4
+pydantic==2.13.5
+PyMuPDF==1.28.2
+pikepdf==10.13.0.post1
+pyHanko==0.37.0
+cryptography==50.0.1
+argon2-cffi==25.1.0
+openai==3.13.0
+rank_bm25==0.2.2
+httpx==0.28.1
+keyring==25.7.0
+python-multipart==0.0.32
+sse-starlette==3.4.11
+
+# Tests
+pytest==9.1.1
+respx==0.23.1
+
+# Packaging (Step 12)
+pyinstaller==6.22.3
+Pillow
+python-pkcs11

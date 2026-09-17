@@ -1,0 +1,2370 @@
+{
+  "$comment": "Cross-step working instrument per spec Section 0.2. Populated step by step. Read BEFORE generating a step; updated AFTER. A broken contract or a cycle is a CONFLICT to be reported, not worked around.",
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "main/index",
+      "kind": "module",
+      "path": "src/main/index.ts",
+      "exports": [
+        "(entrypoint)"
+      ],
+      "step": 1
+    },
+    {
+      "id": "main/logger",
+      "kind": "module",
+      "path": "src/main/logger.ts",
+      "exports": [
+        "initLogger",
+        "logMain",
+        "LoggerHandle"
+      ],
+      "step": 1
+    },
+    {
+      "id": "main/logFormat",
+      "kind": "module",
+      "path": "src/main/logFormat.ts",
+      "exports": [
+        "buildLogEntry",
+        "formatJsonlLine"
+      ],
+      "step": 1
+    },
+    {
+      "id": "main/logRotation",
+      "kind": "module",
+      "path": "src/main/logRotation.ts",
+      "exports": [
+        "planRotation",
+        "applyRotation",
+        "collectExistingArchives",
+        "makeArchiveLogFn",
+        "ROTATION"
+      ],
+      "step": 1
+    },
+    {
+      "id": "main/platform",
+      "kind": "module",
+      "path": "src/main/platform.ts",
+      "exports": [
+        "planChromiumLaunch",
+        "detectWayland"
+      ],
+      "step": 1
+    },
+    {
+      "id": "main/backendProcess",
+      "kind": "module",
+      "path": "src/main/backendProcess.ts",
+      "exports": [
+        "parseListeningLine",
+        "parseBackendLogLine",
+        "computeBackoffSchedule",
+        "PROTOCOL_VERSION"
+      ],
+      "step": 2
+    },
+    {
+      "id": "main/backendSupervisor",
+      "kind": "module",
+      "path": "src/main/backendSupervisor.ts",
+      "exports": [
+        "BackendSupervisor",
+        "SupervisorDeps"
+      ],
+      "step": 2
+    },
+    {
+      "id": "main/sessionManager",
+      "kind": "module",
+      "path": "src/main/sessionManager.ts",
+      "exports": [
+        "SessionManager",
+        "classifyOrphan",
+        "runtimeBaseDir",
+        "snapshotBaseDir",
+        "DAY_MS",
+        "SessionMarker"
+      ],
+      "step": 2
+    },
+    {
+      "id": "preload/index",
+      "kind": "module",
+      "path": "src/preload/index.ts",
+      "exports": [
+        "(contextBridge expose pdfEditor)"
+      ],
+      "step": 1
+    },
+    {
+      "id": "shared/ipc",
+      "kind": "module",
+      "path": "src/shared/ipc.ts",
+      "exports": [
+        "IPC",
+        "LogEntry",
+        "LogLevel",
+        "PlatformInfo",
+        "PdfEditorBridge",
+        "BackendStatus",
+        "BackendStatusSnapshot",
+        "RendererLogInput"
+      ],
+      "step": 1
+    },
+    {
+      "id": "renderer/App",
+      "kind": "component",
+      "path": "src/renderer/App.tsx",
+      "exports": [
+        "App"
+      ],
+      "step": 1
+    },
+    {
+      "id": "renderer/main",
+      "kind": "module",
+      "path": "src/renderer/main.tsx",
+      "exports": [
+        "(entrypoint)"
+      ],
+      "step": 1
+    },
+    {
+      "id": "backend/main",
+      "kind": "module",
+      "path": "backend/main.py",
+      "exports": [
+        "app",
+        "health",
+        "auth_gate",
+        "main"
+      ],
+      "step": 2
+    },
+    {
+      "id": "backend/log",
+      "kind": "module",
+      "path": "backend/log.py",
+      "exports": [
+        "emit"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/session",
+      "kind": "module",
+      "path": "backend/session.py",
+      "exports": [
+        "DocumentSession",
+        "reflink_or_copy",
+        "budget_bytes",
+        "Snap"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/pdflib",
+      "kind": "module",
+      "path": "backend/pdflib.py",
+      "exports": [
+        "open_into_work",
+        "rotate_page",
+        "delete_page",
+        "reorder_pages",
+        "merge_pdf",
+        "get_metadata",
+        "set_metadata",
+        "encrypt_work",
+        "save_document",
+        "PdfError",
+        "page_sizes",
+        "page_count",
+        "rotate_pages",
+        "delete_pages",
+        "duplicate_pages",
+        "extract_pages",
+        "split_document",
+        "unique_filename",
+        "insert_pages",
+        "_resolve_insert_pos"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/schemas",
+      "kind": "module",
+      "path": "backend/schemas.py",
+      "exports": [
+        "OpenRequest",
+        "RotateRequest",
+        "DeleteRequest",
+        "ReorderRequest",
+        "MergeRequest",
+        "MetadataRequest",
+        "EncryptRequest",
+        "SaveRequest"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/routers",
+      "kind": "module",
+      "path": "backend/routers.py",
+      "exports": [
+        "router"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/crypto_ops",
+      "kind": "module",
+      "path": "backend/crypto_ops.py",
+      "exports": [
+        "stamp_image",
+        "sign_document",
+        "verify_signatures",
+        "SignatureError",
+        "BadImage",
+        "MissingCertificate",
+        "describe_pkcs12"
+      ],
+      "step": 4
+    },
+    {
+      "id": "renderer/pdfCoords",
+      "kind": "module",
+      "path": "src/renderer/lib/pdfCoords.ts",
+      "exports": [
+        "buildPdfViewportTransform",
+        "canvasPointToPdf",
+        "canvasRectToPdf",
+        "pdfPointToCanvas"
+      ],
+      "step": 4
+    },
+    {
+      "id": "backend/context/base",
+      "kind": "module",
+      "path": "backend/context/base.py",
+      "exports": [
+        "CONTEXT_PROTOCOL_VERSION",
+        "DocumentContextProvider",
+        "sha256_file",
+        "write_manifest",
+        "read_page_jsonl",
+        "request_cancel"
+      ],
+      "step": 5
+    },
+    {
+      "id": "backend/context/basic",
+      "kind": "module",
+      "path": "backend/context/basic.py",
+      "exports": [
+        "BasicProvider",
+        "basic_worker_main"
+      ],
+      "step": 5
+    },
+    {
+      "id": "backend/context/docling",
+      "kind": "module",
+      "path": "backend/context/docling.py",
+      "exports": [
+        "DoclingProvider"
+      ],
+      "step": 5
+    },
+    {
+      "id": "backend/context/service",
+      "kind": "module",
+      "path": "backend/context/service.py",
+      "exports": [
+        "ContextService",
+        "DoclingUnavailable"
+      ],
+      "step": 5
+    },
+    {
+      "id": "backend/context/router",
+      "kind": "module",
+      "path": "backend/context/router.py",
+      "exports": [
+        "router"
+      ],
+      "step": 5
+    },
+    {
+      "id": "backend/docling_worker",
+      "kind": "module",
+      "path": "backend/docling_worker.py",
+      "exports": [
+        "main"
+      ],
+      "step": 5
+    },
+    {
+      "id": "backend/ai/config",
+      "kind": "module",
+      "path": "backend/ai/config.py",
+      "exports": [
+        "AiConfig",
+        "AiConfigStore",
+        "TextModelCfg",
+        "VisionModelCfg",
+        "PrivacyCfg",
+        "config_path"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/secrets",
+      "kind": "module",
+      "path": "backend/ai/secrets.py",
+      "exports": [
+        "SecretsManager",
+        "seal_file",
+        "open_file",
+        "KeyringUnavailable"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/tokeniser",
+      "kind": "module",
+      "path": "backend/ai/tokeniser.py",
+      "exports": [
+        "tokenize"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/retrieval",
+      "kind": "module",
+      "path": "backend/ai/retrieval.py",
+      "exports": [
+        "build_chunks",
+        "Retriever",
+        "assemble",
+        "est_tokens"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/client",
+      "kind": "module",
+      "path": "backend/ai/client.py",
+      "exports": [
+        "build_client",
+        "list_models",
+        "stream_tokens",
+        "chat_once",
+        "build_vision_message",
+        "AiError",
+        "is_local",
+        "host_of"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/logfilter",
+      "kind": "module",
+      "path": "backend/ai/logfilter.py",
+      "exports": [
+        "redact",
+        "mask_url"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/gateway",
+      "kind": "module",
+      "path": "backend/ai/gateway.py",
+      "exports": [
+        "prepare_chat",
+        "stream_chat",
+        "describe_vision",
+        "load_context_elements"
+      ],
+      "step": 6
+    },
+    {
+      "id": "backend/ai/router",
+      "kind": "module",
+      "path": "backend/ai/router.py",
+      "exports": [
+        "router"
+      ],
+      "step": 6
+    },
+    {
+      "id": "renderer/store/useAppStore",
+      "kind": "module",
+      "path": "src/renderer/store/useAppStore.ts",
+      "exports": [
+        "useAppStore",
+        "Command",
+        "notifyError",
+        "notifySuccess",
+        "performUndo",
+        "performRedo",
+        "refreshDocumentState"
+      ],
+      "step": 7
+    },
+    {
+      "id": "renderer/lib/apiClient",
+      "kind": "module",
+      "path": "src/renderer/lib/apiClient.ts",
+      "exports": [
+        "initApiClient",
+        "configureForTest",
+        "api",
+        "sseStream",
+        "ApiError",
+        "newCorrelationId",
+        "buildHeaders",
+        "shouldRetry",
+        "mapError"
+      ],
+      "step": 7
+    },
+    {
+      "id": "renderer/lib/apiTypes",
+      "kind": "module",
+      "path": "src/renderer/lib/apiTypes.ts",
+      "exports": [
+        "DocumentState",
+        "PagesResponse",
+        "MetadataPatch",
+        "ApiErrorBody",
+        "AiChatEvent"
+      ],
+      "step": 7
+    },
+    {
+      "id": "renderer/i18n",
+      "kind": "module",
+      "path": "src/renderer/i18n/index.ts",
+      "exports": [
+        "t",
+        "useT",
+        "setLang",
+        "getLang",
+        "errorMessage",
+        "useI18n"
+      ],
+      "step": 7
+    },
+    {
+      "id": "renderer/components/Toast",
+      "kind": "module",
+      "path": "src/renderer/components/Toast.tsx",
+      "exports": [
+        "ToastViewport"
+      ],
+      "step": 7
+    },
+    {
+      "id": "renderer/lib/pdfjs",
+      "kind": "module",
+      "path": "src/renderer/lib/pdfjs.ts",
+      "exports": [
+        "pdfjs",
+        "openDocumentFromBytes",
+        "fitScale",
+        "canvasSizeFor"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/lib/thumbnailWindow",
+      "kind": "module",
+      "path": "src/renderer/lib/thumbnailWindow.ts",
+      "exports": [
+        "thumbnailWindow"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/lib/overlayMath",
+      "kind": "module",
+      "path": "src/renderer/lib/overlayMath.ts",
+      "exports": [
+        "rectFromCorners",
+        "toPdfFromViewport",
+        "ViewportSeam"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/hooks/usePdfDocument",
+      "kind": "module",
+      "path": "src/renderer/hooks/usePdfDocument.ts",
+      "exports": [
+        "usePdfDocument"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/hooks/usePdfPageRender",
+      "kind": "module",
+      "path": "src/renderer/hooks/usePdfPageRender.ts",
+      "exports": [
+        "usePdfPageRender"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/components/InteractionOverlay",
+      "kind": "module",
+      "path": "src/renderer/components/InteractionOverlay.tsx",
+      "exports": [
+        "InteractionOverlay",
+        "OverlayTool"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/components/PageCanvas",
+      "kind": "module",
+      "path": "src/renderer/components/PageCanvas.tsx",
+      "exports": [
+        "PageCanvas"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/components/ThumbnailList",
+      "kind": "module",
+      "path": "src/renderer/components/ThumbnailList.tsx",
+      "exports": [
+        "ThumbnailList"
+      ],
+      "step": 8
+    },
+    {
+      "id": "renderer/store/useUiStore",
+      "kind": "module",
+      "path": "src/renderer/store/useUiStore.ts",
+      "exports": [
+        "useUiStore",
+        "clampZoom",
+        "clampPage",
+        "stepZoom"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/lib/documents",
+      "kind": "module",
+      "path": "src/renderer/lib/documents.ts",
+      "exports": [
+        "openDocument",
+        "saveDocument",
+        "rotatePage",
+        "deletePage",
+        "reorderPages",
+        "mergePdf",
+        "setMetadata"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/hooks/usePageSize",
+      "kind": "module",
+      "path": "src/renderer/hooks/usePageSize.ts",
+      "exports": [
+        "usePageSize"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/components/TopBar",
+      "kind": "module",
+      "path": "src/renderer/components/TopBar.tsx",
+      "exports": [
+        "TopBar"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/components/Sidebar",
+      "kind": "module",
+      "path": "src/renderer/components/Sidebar.tsx",
+      "exports": [
+        "Sidebar"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/components/AppShell",
+      "kind": "module",
+      "path": "src/renderer/components/AppShell.tsx",
+      "exports": [
+        "AppShell"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/components/SettingsModal",
+      "kind": "module",
+      "path": "src/renderer/components/SettingsModal.tsx",
+      "exports": [
+        "SettingsModal"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/components/PasswordModal",
+      "kind": "module",
+      "path": "src/renderer/components/PasswordModal.tsx",
+      "exports": [
+        "PasswordModal"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/components/MetadataPanel",
+      "kind": "module",
+      "path": "src/renderer/components/MetadataPanel.tsx",
+      "exports": [
+        "MetadataPanel"
+      ],
+      "step": 9
+    },
+    {
+      "id": "renderer/lib/aiClient",
+      "kind": "module",
+      "path": "src/renderer/lib/aiClient.ts",
+      "exports": [
+        "getAiConfig",
+        "putAiConfig",
+        "testAiConnection",
+        "listModels",
+        "setAiKey",
+        "estimateChat",
+        "streamChat",
+        "cancelChat",
+        "isLocalBaseUrl"
+      ],
+      "step": 10
+    },
+    {
+      "id": "renderer/store/useAiStore",
+      "kind": "module",
+      "path": "src/renderer/store/useAiStore.ts",
+      "exports": [
+        "useAiStore",
+        "jumpToSource"
+      ],
+      "step": 10
+    },
+    {
+      "id": "renderer/components/AiPanel",
+      "kind": "module",
+      "path": "src/renderer/components/AiPanel.tsx",
+      "exports": [
+        "AiPanel"
+      ],
+      "step": 10
+    },
+    {
+      "id": "shared/anonymise",
+      "kind": "module",
+      "path": "src/shared/anonymise.ts",
+      "exports": [
+        "createAnonymiser"
+      ],
+      "step": 11
+    },
+    {
+      "id": "renderer/store/useDebugStore",
+      "kind": "module",
+      "path": "src/renderer/store/useDebugStore.ts",
+      "exports": [
+        "useDebugStore",
+        "filterEntries"
+      ],
+      "step": 11
+    },
+    {
+      "id": "renderer/components/DebugPanel",
+      "kind": "module",
+      "path": "src/renderer/components/DebugPanel.tsx",
+      "exports": [
+        "DebugPanel"
+      ],
+      "step": 11
+    },
+    {
+      "id": "renderer/lib/dumpBuilder",
+      "kind": "module",
+      "path": "src/renderer/lib/dumpBuilder.ts",
+      "exports": [
+        "buildDebugDump",
+        "formatLogLines"
+      ],
+      "step": 11
+    },
+    {
+      "id": "backend/pages",
+      "kind": "module",
+      "path": "backend/pages.py",
+      "exports": [
+        "PageRangeError",
+        "parse_page_range",
+        "parse_page_range_set"
+      ],
+      "step": 3
+    },
+    {
+      "id": "renderer/lib/pageRange",
+      "kind": "module",
+      "path": "src/renderer/lib/pageRange.ts",
+      "exports": [
+        "parsePageRange",
+        "parsePageRangeSet",
+        "PageRangeResult"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/stamp_ops",
+      "kind": "module",
+      "path": "backend/stamp_ops.py",
+      "exports": [
+        "stamp_image_selection",
+        "stamp_text",
+        "add_page_numbers",
+        "StampError",
+        "_combined_smask_png",
+        "add_watermark_text",
+        "add_watermark_image",
+        "list_images",
+        "extract_images"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/redact_ops",
+      "kind": "module",
+      "path": "backend/redact_ops.py",
+      "exports": [
+        "preview_redaction",
+        "apply_redaction",
+        "RedactError"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/security_ops",
+      "kind": "module",
+      "path": "backend/security_ops.py",
+      "exports": [
+        "sanitize",
+        "scrub_metadata",
+        "flatten",
+        "SecurityError",
+        "encrypt_work",
+        "remove_encryption_copy",
+        "perm_bits"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/export_ops",
+      "kind": "module",
+      "path": "backend/export_ops.py",
+      "exports": [
+        "export_images",
+        "document_text",
+        "export_text",
+        "images_to_pdf",
+        "compress",
+        "ExportError"
+      ],
+      "step": 3
+    },
+    {
+      "id": "backend/sig_lib",
+      "kind": "module",
+      "path": "backend/sig_lib.py",
+      "exports": [
+        "list_signatures",
+        "import_signature_bytes",
+        "import_signature_file",
+        "text_to_png",
+        "read_signature_image",
+        "delete_signature",
+        "sig_dir"
+      ],
+      "step": 4
+    },
+    {
+      "id": "backend/properties_ops",
+      "kind": "module",
+      "path": "backend/properties_ops.py",
+      "exports": [
+        "collect_properties",
+        "PropertiesError"
+      ],
+      "step": 3
+    }
+  ],
+  "edges": [
+    {
+      "from": "main/index",
+      "to": "main/logger",
+      "kind": "imports"
+    },
+    {
+      "from": "main/index",
+      "to": "main/platform",
+      "kind": "imports"
+    },
+    {
+      "from": "main/index",
+      "to": "main/sessionManager",
+      "kind": "imports"
+    },
+    {
+      "from": "main/index",
+      "to": "main/backendSupervisor",
+      "kind": "imports"
+    },
+    {
+      "from": "main/index",
+      "to": "shared/ipc",
+      "kind": "imports"
+    },
+    {
+      "from": "main/logger",
+      "to": "main/logFormat",
+      "kind": "imports"
+    },
+    {
+      "from": "main/logger",
+      "to": "main/logRotation",
+      "kind": "imports"
+    },
+    {
+      "from": "main/logger",
+      "to": "shared/ipc",
+      "kind": "imports"
+    },
+    {
+      "from": "main/logFormat",
+      "to": "shared/ipc",
+      "kind": "imports"
+    },
+    {
+      "from": "main/backendSupervisor",
+      "to": "main/backendProcess",
+      "kind": "imports"
+    },
+    {
+      "from": "main/backendSupervisor",
+      "to": "main/logger",
+      "kind": "uses"
+    },
+    {
+      "from": "main/backendSupervisor",
+      "to": "shared/ipc",
+      "kind": "imports"
+    },
+    {
+      "from": "preload/index",
+      "to": "shared/ipc",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/App",
+      "to": "shared/ipc",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/main",
+      "to": "renderer/App",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/App",
+      "to": "preload/index",
+      "kind": "calls"
+    },
+    {
+      "from": "main/index",
+      "to": "preload/index",
+      "kind": "loads-preload"
+    },
+    {
+      "from": "main/backendSupervisor",
+      "to": "backend/main",
+      "kind": "spawns-and-polls"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/log",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/pdflib",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/session",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/routers",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/pdflib",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/session",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/schemas",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/session",
+      "to": "backend/log",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/crypto_ops",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/context/router",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/context/service",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/service",
+      "to": "backend/context/basic",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/service",
+      "to": "backend/context/docling",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/service",
+      "to": "backend/context/base",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/router",
+      "to": "backend/context/service",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/router",
+      "to": "backend/routers",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/basic",
+      "to": "backend/context/base",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/context/docling",
+      "to": "backend/context/base",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/docling_worker",
+      "to": "backend/context/base",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/docling_worker",
+      "kind": "spawns(sidecar)"
+    },
+    {
+      "from": "renderer/components/AiPanel",
+      "to": "renderer/lib/aiClient",
+      "kind": "calls via typed client (Step 10)"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/ai/router",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/ai/config",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/main",
+      "to": "backend/ai/secrets",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/router",
+      "to": "backend/ai/config",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/router",
+      "to": "backend/ai/secrets",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/router",
+      "to": "backend/ai/gateway",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/router",
+      "to": "backend/ai/client",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/router",
+      "to": "backend/routers",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/gateway",
+      "to": "backend/ai/client",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/gateway",
+      "to": "backend/ai/retrieval",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/gateway",
+      "to": "backend/ai/logfilter",
+      "kind": "imports"
+    },
+    {
+      "from": "backend/ai/gateway",
+      "to": "backend/context/base",
+      "kind": "reads JSONL"
+    },
+    {
+      "from": "backend/ai/retrieval",
+      "to": "backend/ai/tokeniser",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/store/useAppStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/lib/apiClient",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/i18n",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/components/Toast",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/Toast",
+      "to": "renderer/store/useAppStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/Toast",
+      "to": "renderer/i18n",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/store/useAppStore",
+      "to": "renderer/lib/apiClient",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/lib/apiClient",
+      "to": "preload/bridge",
+      "kind": "calls (getBackendAuth)"
+    },
+    {
+      "from": "renderer/App",
+      "to": "preload/bridge",
+      "kind": "calls"
+    },
+    {
+      "from": "renderer/lib/apiClient",
+      "to": "backend/routers",
+      "kind": "calls via typed client"
+    },
+    {
+      "from": "renderer/lib/apiClient",
+      "to": "backend/ai/router",
+      "kind": "calls via typed client"
+    },
+    {
+      "from": "renderer/store/useAppStore",
+      "to": "backend/routers",
+      "kind": "calls via typed client"
+    },
+    {
+      "from": "renderer/lib/pdfjs",
+      "to": "renderer/lib/apiClient",
+      "kind": "uses getBytes via hook"
+    },
+    {
+      "from": "renderer/hooks/usePdfDocument",
+      "to": "renderer/lib/pdfjs",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/hooks/usePdfDocument",
+      "to": "renderer/lib/apiClient",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/hooks/usePdfDocument",
+      "to": "renderer/store/useAppStore",
+      "kind": "reads docOpen/docVersion"
+    },
+    {
+      "from": "renderer/hooks/usePdfPageRender",
+      "to": "renderer/lib/pdfjs",
+      "kind": "types"
+    },
+    {
+      "from": "renderer/components/PageCanvas",
+      "to": "renderer/hooks/usePdfPageRender",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/PageCanvas",
+      "to": "renderer/components/InteractionOverlay",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/InteractionOverlay",
+      "to": "renderer/lib/overlayMath",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/InteractionOverlay",
+      "to": "renderer/lib/pdfCoords",
+      "kind": "types PdfRect"
+    },
+    {
+      "from": "renderer/lib/overlayMath",
+      "to": "renderer/lib/pdfCoords",
+      "kind": "types PdfRect"
+    },
+    {
+      "from": "renderer/components/ThumbnailList",
+      "to": "renderer/lib/thumbnailWindow",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/ThumbnailList",
+      "to": "renderer/lib/pdfjs",
+      "kind": "types"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/components/PageCanvas",
+      "kind": "mount (Step 9)"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/components/ThumbnailList",
+      "kind": "mount (Step 9)"
+    },
+    {
+      "from": "renderer/App",
+      "to": "renderer/components/AppShell",
+      "kind": "mount"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/components/TopBar",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/components/Sidebar",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/components/PageCanvas",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/components/SettingsModal",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/components/PasswordModal",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/hooks/usePdfDocument",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/hooks/usePageSize",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/store/useUiStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/TopBar",
+      "to": "renderer/lib/documents",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/TopBar",
+      "to": "renderer/store/useUiStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/Sidebar",
+      "to": "renderer/components/ThumbnailList",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/Sidebar",
+      "to": "renderer/components/MetadataPanel",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/Sidebar",
+      "to": "renderer/lib/documents",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/MetadataPanel",
+      "to": "renderer/lib/documents",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/MetadataPanel",
+      "to": "renderer/lib/apiClient",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/lib/documents",
+      "to": "renderer/lib/apiClient",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/lib/documents",
+      "to": "renderer/store/useAppStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/lib/documents",
+      "to": "renderer/store/useUiStore",
+      "kind": "imports"
+    },
+    {
+      "from": "main/index.ts",
+      "to": "shared/ipc",
+      "kind": "IPC handlers"
+    },
+    {
+      "from": "preload/index.ts",
+      "to": "shared/ipc",
+      "kind": "implements"
+    },
+    {
+      "from": "renderer/components/AiPanel",
+      "to": "renderer/store/useAiStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/AiPanel",
+      "to": "renderer/store/useUiStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/store/useAiStore",
+      "to": "renderer/lib/aiClient",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/store/useAiStore",
+      "to": "renderer/store/useAppStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/store/useAiStore",
+      "to": "renderer/components/InteractionOverlay",
+      "kind": "types OverlayTool"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/store/useAiStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/Sidebar",
+      "to": "renderer/components/AiPanel",
+      "kind": "renders"
+    },
+    {
+      "from": "renderer/lib/aiClient",
+      "to": "renderer/lib/apiClient",
+      "kind": "uses api+sseStream"
+    },
+    {
+      "from": "renderer/lib/documents",
+      "to": "renderer/lib/aiClient",
+      "kind": "uses streamChat (KI-Vorschlag)"
+    },
+    {
+      "from": "renderer/components/MetadataPanel",
+      "to": "renderer/store/useAiStore",
+      "kind": "reads textConfigured"
+    },
+    {
+      "from": "renderer/components/DebugPanel",
+      "to": "renderer/store/useDebugStore",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/components/DebugPanel",
+      "to": "renderer/lib/dumpBuilder",
+      "kind": "imports"
+    },
+    {
+      "from": "renderer/lib/dumpBuilder",
+      "to": "shared/anonymise",
+      "kind": "uses createAnonymiser"
+    },
+    {
+      "from": "renderer/lib/dumpBuilder",
+      "to": "renderer/lib/apiClient",
+      "kind": "uses api (/debug/versions)"
+    },
+    {
+      "from": "renderer/lib/dumpBuilder",
+      "to": "renderer/store/useAppStore",
+      "kind": "reads state (curated)"
+    },
+    {
+      "from": "renderer/lib/dumpBuilder",
+      "to": "renderer/store/useAiStore",
+      "kind": "reads config (key-free)"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/components/DebugPanel",
+      "kind": "renders"
+    },
+    {
+      "from": "renderer/components/AppShell",
+      "to": "renderer/store/useDebugStore",
+      "kind": "imports (toggle/init)"
+    },
+    {
+      "from": "renderer/store/useAppStore",
+      "to": "renderer/store/useDebugStore",
+      "kind": "imports (toast Details -> openFor)"
+    },
+    {
+      "from": "renderer/components/ThumbnailList",
+      "to": "renderer/lib/documents",
+      "kind": "imports rotatePage/deletePage"
+    },
+    {
+      "from": "renderer/components/ThumbnailList",
+      "to": "renderer/store/useAppStore",
+      "kind": "reads readOnly/mutationLock"
+    },
+    {
+      "from": "renderer/lib/pageRange",
+      "to": "backend/pages",
+      "kind": "mirrors (same shared table)"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/stamp_ops",
+      "kind": "calls"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/redact_ops",
+      "kind": "calls"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/security_ops",
+      "kind": "calls"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/export_ops",
+      "kind": "calls"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/sig_lib",
+      "kind": "calls"
+    },
+    {
+      "from": "backend/routers",
+      "to": "backend/properties_ops",
+      "kind": "calls"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "IPC app:get-version",
+      "request": "void",
+      "response": "string",
+      "producer": "main/index",
+      "consumers": [
+        "preload/index"
+      ],
+      "step": 1
+    },
+    {
+      "id": "IPC app:get-platform",
+      "request": "void",
+      "response": "PlatformInfo",
+      "producer": "main/index",
+      "consumers": [
+        "preload/index"
+      ],
+      "step": 1
+    },
+    {
+      "id": "IPC log:write",
+      "request": "RendererLogInput",
+      "response": "void",
+      "producer": "preload/index",
+      "consumers": [
+        "main/index"
+      ],
+      "step": 1
+    },
+    {
+      "id": "Bridge window.pdfEditor",
+      "request": "PdfEditorBridge",
+      "response": "PdfEditorBridge",
+      "producer": "preload/index",
+      "consumers": [
+        "renderer/App"
+      ],
+      "step": 1
+    },
+    {
+      "id": "stdout listening handshake",
+      "request": "void",
+      "response": "{event:'listening',port,pid,protocolVersion:'1.0'}",
+      "producer": "backend/main",
+      "consumers": [
+        "main/backendSupervisor"
+      ],
+      "step": 2
+    },
+    {
+      "id": "stdout log bridge",
+      "request": "void",
+      "response": "LogEntry(JSONL)",
+      "producer": "backend/main",
+      "consumers": [
+        "main/backendSupervisor",
+        "main/logger"
+      ],
+      "step": 2
+    },
+    {
+      "id": "GET /health (token-exempt)",
+      "request": "void",
+      "response": "{status,version,protocolVersion,pid}",
+      "producer": "backend/main",
+      "consumers": [
+        "main/backendSupervisor"
+      ],
+      "step": 2
+    },
+    {
+      "id": "X-Auth-Token gate",
+      "request": "header X-Auth-Token",
+      "response": "401 when missing/mismatch (all non-/health)",
+      "producer": "main/backendSupervisor",
+      "consumers": [
+        "backend/main"
+      ],
+      "step": 2
+    },
+    {
+      "id": "IPC backend:get-status",
+      "request": "void",
+      "response": "BackendStatusSnapshot",
+      "producer": "main/index",
+      "consumers": [
+        "preload/index"
+      ],
+      "step": 2
+    },
+    {
+      "id": "IPC backend:status (push)",
+      "request": "void",
+      "response": "BackendStatusSnapshot",
+      "producer": "main/index",
+      "consumers": [
+        "renderer/App"
+      ],
+      "step": 2
+    },
+    {
+      "id": "POST /document/open",
+      "request": "OpenRequest",
+      "response": "OpenResult(pageCount,width,height,rotation,encrypted,readOnly) | PdfError",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "GET /document/state",
+      "request": "void",
+      "response": "DocumentState(open,readOnly,dirty,encrypted,canUndo,canRedo,undoDepth)",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "GET /document/pages",
+      "request": "void",
+      "response": "{pages:[PageInfo]}",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "GET /document/metadata",
+      "request": "void",
+      "response": "Metadata(title,author,subject,keywords)",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /document/metadata",
+      "request": "MetadataRequest",
+      "response": "Metadata | undoable",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /pages/rotate",
+      "request": "RotateRequest",
+      "response": "{index,rotation} | undoable | bad_page",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /pages/delete",
+      "request": "DeleteRequest",
+      "response": "{pageCount} | undoable | bad_page",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /pages/reorder",
+      "request": "ReorderRequest",
+      "response": "{pageCount} | undoable | bad_page",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /pages/merge",
+      "request": "MergeRequest",
+      "response": "{pageCount,added} | undoable | corrupt_document",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /document/encrypt",
+      "request": "EncryptRequest",
+      "response": "{encrypted,algorithm} | irreversible",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /document/save",
+      "request": "SaveRequest",
+      "response": "{saved,path,encrypted} | write_denied",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /document/undo",
+      "request": "void",
+      "response": "{canUndo,canRedo,undoDepth,pageCount}",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /document/redo",
+      "request": "void",
+      "response": "{canUndo,canRedo,undoDepth,pageCount}",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/* (Step 7+)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "PdfError envelope",
+      "request": "(exception)",
+      "response": "{error, message, correlationId} @ status",
+      "producer": "backend/routers",
+      "consumers": [
+        "backend/main error-handler",
+        "renderer toast (Step 7)"
+      ],
+      "step": 3
+    },
+    {
+      "id": "POST /document/sign",
+      "request": "SignRequest",
+      "response": "{signed,field,page} | irreversible | signature_error|missing_certificate|bad_page",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer (Tab4, Step 9)"
+      ],
+      "step": 4
+    },
+    {
+      "id": "GET /document/signatures",
+      "request": "void",
+      "response": "{signatures:[{field,intact,valid,trusted,mdAlgorithm,signerCn}]}",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer (Tab4, Step 9)"
+      ],
+      "step": 4
+    },
+    {
+      "id": "POST /document/stamp",
+      "request": "StampRequest",
+      "response": "{page,addedImages,imagesOnPage} | undoable | bad_image|bad_page",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer (Tab3, Step 9)"
+      ],
+      "step": 4
+    },
+    {
+      "id": "coord canvas->PDF",
+      "request": "(cssX,cssY,page,scale,rotation)",
+      "response": "PdfPoint/PdfRect (unten-links)",
+      "producer": "renderer/pdfCoords",
+      "consumers": [
+        "renderer overlay (Step 8)",
+        "renderer stamp/VLM (Step 9/10)"
+      ],
+      "step": 4
+    },
+    {
+      "id": "GET /context/providers",
+      "request": "void",
+      "response": "{providers:[{name,available,quality}],docling,protocolVersion}",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "POST /context/analyze",
+      "request": "AnalyzeRequest{provider?}",
+      "response": "{contextId,status,provider,pageCount,fromCache} | docling_unavailable",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)",
+        "backend/ai (Step 6 liest JSONL direkt)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "GET /context/{id}/manifest",
+      "request": "void",
+      "response": "manifest{status,provider,pageCount,pages[]} | progress",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "GET /context/{id}/pages",
+      "request": "from,to",
+      "response": "{from,to,elements:[{page,bbox,text,heading,...}]}",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)",
+        "backend/ai (Step 6)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "GET /context/{id}/regions",
+      "request": "page",
+      "response": "{page,regions:[...]}",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "POST /context/{id}/cancel",
+      "request": "void",
+      "response": "{contextId,status:cancelled}",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "GET /context/{id}/stream",
+      "request": "void",
+      "response": "SSE<progress>",
+      "producer": "backend/context/router",
+      "consumers": [
+        "renderer (Tab5, Step 10)"
+      ],
+      "step": 5
+    },
+    {
+      "id": "docling sidecar protocol",
+      "request": "worker --version | worker IN OUTDIR",
+      "response": "JSONL stdout {event:version|progress|done|error} + disk JSONL/manifest",
+      "producer": "backend/docling_worker",
+      "consumers": [
+        "backend/context/docling"
+      ],
+      "step": 5
+    },
+    {
+      "id": "GET /config/ai",
+      "request": "void",
+      "response": "{textModel,visionModel,docling,privacy,textConfigured,visionConfigured,keyStatus,version}",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "PUT /config/ai",
+      "request": "AiConfig",
+      "response": "effective AiConfig view | config_invalid",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "POST /config/ai/test",
+      "request": "{section,candidate{baseUrl}}",
+      "response": "{ok,models,latencyMs,error?} (ohne Persistierung)",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "POST /config/ai/key",
+      "request": "{section,key,mode?}",
+      "response": "{section,stored,source} (nie Echo) | keyring_unavailable",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "DELETE /config/ai/key",
+      "request": "section",
+      "response": "{section,stored:false}",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "GET /config/ai/key-status",
+      "request": "void",
+      "response": "{mode,keys:{text,vision}}",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "GET /ai/models",
+      "request": "section",
+      "response": "{ok,models,latencyMs,error?}",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "POST /ai/estimate",
+      "request": "{contextId?,question,page?,scope?}",
+      "response": "{estimatedInputTokens,pagesAffected,nonLocal,host,requireConfirm}",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "POST /ai/chat",
+      "request": "AiChatRequest{contextId?,question,page?,scope?}",
+      "response": "SSE<meta|token|done|error|cancelled>",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "POST /ai/chat/cancel",
+      "request": "{streamId}",
+      "response": "{status:cancelling|not_found}",
+      "producer": "backend/ai/router",
+      "consumers": [
+        "renderer (Tab5/Settings, Step 9/10)"
+      ],
+      "step": 6
+    },
+    {
+      "id": "IPC backend:get-auth",
+      "request": "void",
+      "response": "{baseUrl,token} | null (Bridge)",
+      "producer": "main/index",
+      "consumers": "renderer/apiClient",
+      "step": 7
+    },
+    {
+      "id": "GET /openapi.json",
+      "request": "void",
+      "response": "OpenAPI3 (nur PDF_EDITOR_DEV_DOCS=1; sonst nicht registriert)",
+      "producer": "backend/main",
+      "consumers": "(Browser/Swagger)",
+      "step": 2
+    },
+    {
+      "id": "GET /docs",
+      "request": "void",
+      "response": "Swagger-UI + Authorize(X-Auth-Token) (nur Dev-Modus)",
+      "producer": "backend/main",
+      "consumers": "(Browser)",
+      "step": 2
+    },
+    {
+      "id": "GET /document/file",
+      "request": "void",
+      "response": "application/pdf bytes (no-store) | no_document 409",
+      "producer": "backend/routers",
+      "consumers": "renderer/hooks/usePdfDocument",
+      "step": 8
+    },
+    {
+      "id": "IPC dialog:open-pdf",
+      "request": "void",
+      "response": "string|null",
+      "producer": "main/index.ts",
+      "consumers": [
+        "renderer (via preload bridge)"
+      ],
+      "step": 9
+    },
+    {
+      "id": "IPC dialog:save-pdf",
+      "request": "suggestedName",
+      "response": "string|null",
+      "producer": "main/index.ts",
+      "consumers": [
+        "renderer (via preload bridge)"
+      ],
+      "step": 9
+    },
+    {
+      "id": "IPC dialog:pick-cert",
+      "request": "void",
+      "response": "string|null",
+      "producer": "main/index.ts",
+      "consumers": [
+        "renderer (via preload bridge)"
+      ],
+      "step": 9
+    },
+    {
+      "id": "GET /debug/versions",
+      "request": "void",
+      "response": "{python,protocolVersion,libraries,doclingAvailable}",
+      "producer": "backend/routers",
+      "consumers": [
+        "renderer/lib/dumpBuilder"
+      ],
+      "step": 11
+    },
+    {
+      "id": "IPC log:tail",
+      "request": "n:number",
+      "response": "LogEntry[]",
+      "producer": "main/index (contextBridge)",
+      "consumers": [
+        "renderer/store/useDebugStore"
+      ],
+      "step": 11
+    },
+    {
+      "id": "IPC log:line (push)",
+      "request": "LogEntry",
+      "response": "void",
+      "producer": "main/index (contextBridge)",
+      "consumers": [
+        "renderer/store/useDebugStore"
+      ],
+      "step": 11
+    },
+    {
+      "id": "IPC debug:dump-write",
+      "request": "content:string",
+      "response": "string|null",
+      "producer": "main/index (contextBridge)",
+      "consumers": [
+        "renderer/components/DebugPanel"
+      ],
+      "step": 11
+    },
+    {
+      "id": "IPC debug:codegraph-read",
+      "request": "void",
+      "response": "unknown",
+      "producer": "main/index (contextBridge)",
+      "consumers": [
+        "renderer/lib/dumpBuilder"
+      ],
+      "step": 11
+    },
+    {
+      "id": "IPC app:get-initial-file",
+      "request": "void",
+      "response": "string|null (argv/%f PDF)",
+      "producer": "main/index (contextBridge)",
+      "consumers": [
+        "renderer/components/AppShell"
+      ],
+      "step": 12
+    },
+    {
+      "id": "Backend spawn (packaged)",
+      "request": "frozenBinary onedir",
+      "response": "stdout handshake {listening,port,pid,protocolVersion}",
+      "producer": "main/backendSupervisor",
+      "consumers": [
+        "/usr/lib/pdf-editor/backend/pdf-editor-backend"
+      ],
+      "step": 12
+    },
+    {
+      "id": "pagerange.parity",
+      "request": "expr:string, total:number",
+      "response": "pages:number[] | error",
+      "producer": "backend/pages",
+      "consumers": [
+        "renderer/lib/pageRange",
+        "tests:backend/tests/test_pagerange.py",
+        "tests:tests/renderer/pageRange.test.ts"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /pages/rotate-selection",
+      "request": "RotatePagesRequest{expr,delta}",
+      "response": "{rotated,pages[]}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_pages_ops.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /pages/delete-selection",
+      "request": "DeletePagesRequest{expr}",
+      "response": "{deleted,page_count}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_pages_ops.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /pages/duplicate",
+      "request": "DuplicatePagesRequest{expr,position,page}",
+      "response": "{added,page_count}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_pages_ops.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /pages/extract",
+      "request": "ExtractPagesRequest{expr,destDir,each,baseName}",
+      "response": "{created[],count,pages} (Quelle unveraendert)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_pages_ops.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /pages/split",
+      "request": "SplitDocumentRequest{mode,page,count,points,destDir,baseName}",
+      "response": "{created[],count,parts[]}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_pages_ops.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /pages/insert",
+      "request": "InsertPagesRequest{position,page,source{kind,width,height,path,expr,password,scale}}",
+      "response": "{added,page_count}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_pages_ops.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /stamps/image",
+      "request": "ImageStampSelectionRequest{expr,x,y,width,height,image(b64),opacity,rotation,overlay,keepProportion}",
+      "response": "{applied,pages[],rotation,opacity,overlay}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_stamps.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /stamps/text",
+      "request": "TextStampRequest{expr,x,y,text,fontname,fontsize,color,opacity,rotation,align,overlay}",
+      "response": "{applied,pages[]}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_stamps.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /stamps/page-numbers",
+      "request": "PageNumbersRequest{expr,position,margin,format,start,fontname,fontsize,color}",
+      "response": "{applied,pages[],start}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_stamps.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /stamps/watermark",
+      "request": "WatermarkRequest{kind,expr,text,image,x,y,width,height,angle,opacity,tiled,overlay,fontname,fontsize,color}",
+      "response": "{applied,pages[],tiled,overlay}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_stamps.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP GET /document/images",
+      "request": "query expr",
+      "response": "{images[{page,index,xref,width,height,bpc,colorspace}],count}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_stamps.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /document/extract-images",
+      "request": "ExtractImagesRequest{expr,destDir,baseName}",
+      "response": "{created[{page,index,path,width,height}],count} (Quelle unveraendert, §2.6)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_stamps.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /redaction/preview",
+      "request": "RedactRequest{regions[{page,x,y,width,height}],fill?,images}",
+      "response": "{willRedact[{page,strings[]}]} (nicht-mutierend)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_redaction.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /redaction/apply",
+      "request": "RedactRequest{regions,fill?,images}",
+      "response": "{appliedPages[],captured{},removed[],remaining[],verified} (irreversibel, Undo geleert)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_redaction.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /security/sanitize",
+      "request": "(leer)",
+      "response": "{removed{javascript,embeddedFiles,launchActions},total,clean}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_security.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /document/scrub-metadata",
+      "request": "(leer)",
+      "response": "{scrubbed,hadXmp}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_security.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /document/flatten",
+      "request": "FlattenRequest{categories?}",
+      "response": "{flattened[],annotationsBurned,formFieldsBurned}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_security.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /document/encrypt",
+      "request": "EncryptRequest{password,ownerPw?,permissions?}",
+      "response": "{encrypted,algorithm,ownerDefaultsToUser} (Save-time-Property; irreversibel)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_encrypt.py",
+        "tests:backend/tests/test_core.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /document/decrypt",
+      "request": "DecryptRequest{ownerPassword,path?,destDir?,baseName?}",
+      "response": "{path,decrypted} (neue Datei, braucht Owner-PW, §2.6)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_encrypt.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /export/images",
+      "request": "ExportImagesRequest{expr,destDir,fmt,dpi,baseName?}",
+      "response": "{created[{page,path,width,height,bytes}],count,format,dpi}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_export.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /export/text",
+      "request": "ExportTextRequest{expr,destDir,fmt,baseName?}",
+      "response": "{path,format,bytes}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_export.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP GET /export/text-preview",
+      "request": "query expr,fmt",
+      "response": "{text,format,chars}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_export.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /export/images-to-pdf",
+      "request": "ImagesToPdfRequest{paths,destDir,pageSize,orientation,baseName?}",
+      "response": "{path,pages}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_export.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP POST /export/compress",
+      "request": "CompressRequest{destDir,targetDpi,jpegQuality,baseName?}",
+      "response": "{path,beforeBytes,afterBytes,savedPercent,smaller} (neue Datei)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_export.py"
+      ],
+      "step": 3
+    },
+    {
+      "id": "HTTP GET /signatures",
+      "request": "(leer)",
+      "response": "{signatures[{id,name,fileName,defaultSizePt,defaultOpacity,createdAt,mime,hasImage}],dir}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_siglib.py"
+      ],
+      "step": 4
+    },
+    {
+      "id": "HTTP POST /signatures/import",
+      "request": "SigImportRequest{name,image(b64),ext,sizePt,opacity}",
+      "response": "{id,mime,name,defaultSizePt,defaultOpacity,createdAt}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_siglib.py"
+      ],
+      "step": 4
+    },
+    {
+      "id": "HTTP POST /signatures/text",
+      "request": "SigTextRequest{name,text,fontname,fontsize,color,sizePt,opacity}",
+      "response": "{id,mime,...} (transparentes PNG)",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_siglib.py"
+      ],
+      "step": 4
+    },
+    {
+      "id": "HTTP POST /certificates/describe",
+      "request": "CertDescribeRequest{path,password?}",
+      "response": "{subject,issuer,serial,notBefore,notAfter,selfSigned,expired,notYetValid,hasPrivateKey,keyUsage,warnings,canSignWith}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_siglib.py"
+      ],
+      "step": 4
+    },
+    {
+      "id": "HTTP GET /document/signatures",
+      "request": "(leer)",
+      "response": "{signatures[{field,intact,valid,trusted,modifiedAfterSigning,mdAlgorithm,signerCn,verdict}],signed}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_core.py"
+      ],
+      "step": 4
+    },
+    {
+      "id": "HTTP POST /document/properties",
+      "request": "PropertiesRequest{page}",
+      "response": "{fileSizeBytes,pageCount,pdfVersion,producer,creator,creationDate,modDate,currentPage,pageWidth,pageHeight,pageRotation,encrypted,encryptionAlgorithm,permissions,pendingEncryption,linearized,tagged,hasForms,attachmentCount,hasJavaScript,fonts[]}",
+      "producer": "backend/routers",
+      "consumers": [
+        "tests:backend/tests/test_properties.py",
+        "renderer:PropertiesPanel"
+      ],
+      "step": 3
+    }
+  ]
+}

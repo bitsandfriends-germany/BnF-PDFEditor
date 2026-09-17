@@ -1,0 +1,4 @@
+# Docling-Sidecar — EIGENES Bundle (pdf-editor-docling), NIE Teil des eingefrorenen Backends.
+# Wird als separater PyInstaller-onedir-Bundle gebaut und nach /usr/lib/pdf-editor/docling-worker/
+# installiert (Section 5.3). Enthaelt die schwere PyTorch-Kette.
+docling==2.126.0

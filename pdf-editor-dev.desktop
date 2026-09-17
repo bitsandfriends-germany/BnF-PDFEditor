@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=PDF Editor (Entwicklung)
+GenericName=PDF-Editor
+Comment=Startet den B&F PDF Editor im Entwicklungsmodus (Electron + Backend)
+Exec=bash -lc "cd '/home/iambarth/Documents/Projects/B&F PDF Editor' && ./start.sh"
+Icon=/home/iambarth/Documents/Projects/B&F PDF Editor/build/icon.png
+Terminal=true
+Categories=Office;Viewer;Graphics;Development;
+Keywords=pdf;entwicklung;dev;
+StartupWMClass=bf-pdf-editor

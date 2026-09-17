@@ -1,0 +1,49 @@
+# R77: CI fuer das oeffentliche Repository — laeuft ohne GPG/RPM und ohne echte Smartcard.
+# Geprueft werden die Guards, die Typen, die Backend-Tests und die Unit-Tests.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      # jsdom 30 (devDependency) verlangt Node ^22.22.2 || ^24.15.0 || >=26: mit Node 20 scheitert
+      # die jsdom-Umgebung mit "TypeError: webidl.util.markAsUncloneable is not a function" und
+      # vitest bricht mit Unhandled Errors ab (im internen Runner gemessen, R83).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Abhaengigkeiten installieren
+        run: |
+          npm ci
+          python -m venv backend/.venv
+          backend/.venv/bin/pip install --upgrade pip
+          backend/.venv/bin/pip install -r requirements.txt
+
+      - name: Guards (Befehlsregistry, UI-Registry, Tooltip-Abdeckung)
+        run: |
+          node scripts/verification-matrix.mjs
+          node scripts/ui-registry.mjs
+          git diff --exit-code -- docs/ui-registry.md || (echo "docs/ui-registry.md ist veraltet (node scripts/ui-registry.mjs ausfuehren)"; exit 1)
+          node scripts/tooltip-coverage.mjs
+
+      - name: Typpruefung
+        run: npm run typecheck
+
+      - name: Backend-Tests
+        run: backend/.venv/bin/python -m pytest backend/tests -q
+
+      - name: Unit-Tests (Renderer/Main)
+        run: npx vitest run --silent

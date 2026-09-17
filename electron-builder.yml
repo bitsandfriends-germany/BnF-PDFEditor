@@ -1,0 +1,95 @@
+# electron-builder-Konfiguration — Fedora-RPM (Step 12).
+#
+# Optionnamen gegen die installierte electron-builder-Version 26.15.3 verifiziert
+# (node_modules/app-builder-lib/out/options/linuxOptions.d.ts): target/depends/maintainer/
+# synopsis/category/mimeTypes/desktop/executableName/artifactName/extraResources.
+#
+# Docling ist HIER NICHT enthalten (Section 5.3): das Basis-RPM installiert/startet/raucht ohne es.
+# Der Docling-Sidecar ist ein SEPARATES rpm-Unterpaket (build/linux/pdf-editor.spec -> %files docling).
+# Die finale RPM-Zusammensetzung inkl. /usr/bin/pdf-editor-Wrapper und Unterpaket uebernimmt
+# rpmbuild ueber diese Konfiguration (build.sh); `electron-builder -l rpm` erzeugt zusaetzlich ein
+# eigenstaendiges Basis-RPM (Auto-Launcher /usr/bin/pdf-editor), das ohne den Wrapper auskommt,
+# weil die App die Wayland-Flags selbst setzt (src/main/platform.ts).
+
+appId: de.barth.pdf-editor
+productName: pdf-editor
+executableName: pdf-editor
+
+directories:
+  buildResources: build
+  output: dist/electron
+
+files:
+  - out/**/*
+  - package.json
+
+extraResources:
+  # PyInstaller-onedir des Backends (build.sh legt es nach dist/backend/pdf-editor-backend/).
+  # resolveBackend() sucht genau resources/backend/pdf-editor-backend/pdf-editor-backend.
+  - from: dist/backend/pdf-editor-backend
+    to: backend/pdf-editor-backend
+  - from: build/linux/pdf-editor
+    to: bin/pdf-editor
+  - from: build/icon.png
+    to: icon.png
+
+asar: true
+
+linux:
+  target:
+    # R76: RPM (Fedora/RHEL) UND DEB (Debian/Ubuntu) aus DEMSELBEN App-Baum. Das DEB wird im
+    # Paketierungsschritt mit --prepackaged gebaut, damit beide Pakete bitgleichen Inhalt haben.
+    - target: rpm
+      arch:
+        - x64
+    - target: deb
+      arch:
+        - x64
+  maintainer: "B&F <maintainer@example.org>"
+  synopsis: "Enterprise-PDF-Editor mit konfigurierbarer KI"
+  # Fensterzuordnung: Desktop-Dateiname = desktopName aus package.json (sonst warnt electron-builder).
+  syncDesktopName: true
+  description: "PDF editor with page operations, signing, encryption and configurable OpenAI-compatible AI. Docling is an optional sidecar sub-package."
+  category: Office
+  mimeTypes:
+    - application/pdf
+  icon: build/icon.png
+  artifactName: "pdf-editor-${version}.${arch}.rpm"
+  desktop:
+    # Schema electron-builder 26 (LinuxDesktopFile): nur `entry`/`desktopActions`; alle
+    # Desktop-Entry-Felder inclusive MimeType gehören in `entry` (kleingeschrieben).
+    entry:
+      Name: "PDF Editor"
+      GenericName: "PDF-Editor"
+      Comment: "PDF bearbeiten, signieren und mit konfigurierbarer KI analysieren"
+      Categories: "Office;Viewer;Graphics;"
+      Keywords: "pdf;bearbeiten;signieren;verschlüsseln"
+      StartupWMClass: "pdf-editor"
+      MimeType: "application/pdf;"
+
+# DEB-Abhaengigkeiten (Debian/Ubuntu-Namen; bewusst explizit, damit nicht Fedora-Namen entstehen).
+deb:
+  # R76: eigener Dateiname + gleicher Paketname wie das RPM (apt install pdf-editor).
+  packageName: pdf-editor
+  artifactName: "pdf-editor-${version}.${arch}.deb"
+  depends:
+    - libgtk-3-0
+    - libnotify4
+    - libnss3
+    - libxss1
+    - libxtst6
+    - xdg-utils
+    - libatspi2.0-0
+    - libuuid1
+
+# Basis-RPM-Abhaengigkeiten (Electron-Runtime auf Fedora). Docling fuegt keine hinzu.
+rpm:
+  depends:
+    - gtk3
+    - libnotify
+    - nss
+    - "libXScrnSaver"
+    - "(libXtst or libXtst6)"
+    - xdg-utils
+    - at-spi2-core
+    - "(libuuid or libuuid1)"
